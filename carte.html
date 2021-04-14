@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+    <head>
+
+         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+    </head>
+
+    <style>
+        html, body { height: 90% }
+    </style>
+
+     <body onload="initialize()">
+       <header>
+         SITUER VOTRE RECLAMATION
+       </header>
+
+         <div><INPUT TYPE="button" Value="Acceuil reclamation" onclick="window.location='https://mamairie1.wordpress.com/';"></div>
+         <div id="map" style="width:50%; height:60%"></div>
+
+        <form action="mailto:mamairie.pai@gmail.com?subject=Fomulaire Mon javascript" name="envoi" method=POST enctype="text/plain">
+          <div>
+            <label for="nom">nom : </label>
+            <input type="text" id="nom" name="nom"  >
+          </div>
+
+          <div>
+            <label for="prenom">prenom : </label>
+            <input type="text" id="prenom" name="prenom"  >
+          </div>
+
+          <div>
+            <label for="nom">mail : </label>
+            <input type="text" id="nom" name="nom"  >
+          </div>
+
+          <div>
+            <label for="sujet">sujet : </label>
+            <input type="text" id="sujet" name="sujet" style=" width: 400px;"  >
+          </div>
+
+          <div>
+            <label for="desciption">description : </label>
+            <input type="text" id="desc" name="desc"  style="height: 70px;width: 400px;">
+          </div>
+
+           <div>
+             <label for="latitude">latitude : </label>
+             <input type="text" id="lati" name="lati" readonly="readonly" value=" ">
+           </div>
+
+           <div>
+             <label for="longi">longitude : </label>
+             <input type="text" id="longi" name="longi" readonly="readonly" value=" ">
+           </div>
+
+           <div>
+             <label for="anonymat">Souhaitez-vous restez anonyme ?</label>
+             <input type="checkbox" id="ano" name="ano">
+           </div>
+
+           <div class="button"  id="divBouton" style="display:none;">
+             <button type="submit">Confirmer</button>
+          </div>
+
+        </form>
+     </body>
+ </html>
+ <script type="text/javascript">
+    function initialize() {
+        var map = L.map('map').setView([50.60907, 3.13809], 16);
+
+        var markers = new Array();
+
+        var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { // LIGNE 20
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        map.on('click', addMarker);
+
+        function addMarker(e){
+          var newMarker = new L.marker(e.latlng);
+          if (markers.length > 0 ){
+            map.removeLayer(markers[0]);
+            markers.pop();
+          }
+          markers.push(newMarker);
+          map.addLayer(markers[0]);
+          document.getElementById("longi").setAttribute("value",markers[0].getLatLng().lng);
+          document.getElementById("lati").setAttribute("value",markers[0].getLatLng().lat);
+          var bouton = document.getElementById("divBouton").style.display = "";
+        }
+    }
+</script>
